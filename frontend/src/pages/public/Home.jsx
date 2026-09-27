@@ -6,6 +6,8 @@ import {
   Github,
   Linkedin,
   Mail,
+  Phone,
+  MapPin,
   FileText,
   ArrowRight,
   ExternalLink,
@@ -42,6 +44,8 @@ const Home = () => {
   const [githubStats, setGithubStats] = useState(null);
   const [leetcodeStats, setLeetcodeStats] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const [activeExperienceId, setActiveExperienceId] = useState(null);
 
   // Contact Form state
   const [contactForm, setContactForm] = useState({ name: '', email: '', subject: '', message: '' });
@@ -133,137 +137,234 @@ const Home = () => {
   };
 
   return (
-    <div className="space-y-28 pb-24">
+    <div className="space-y-16 pb-16">
       {/* HERO SECTION */}
-      <section className="relative min-h-[85vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-8">
-        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-blue-500/10 dark:bg-blue-600/15 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-[450px] h-[450px] bg-indigo-500/10 dark:bg-purple-600/10 rounded-full blur-3xl"></div>
+      <section id="hero" className="relative min-h-[85vh] flex items-center px-4 sm:px-6 lg:px-8 pt-4 overflow-hidden">
+        <div className="absolute inset-0 -z-10 pointer-events-none">
+          <div className="absolute top-1/4 left-10 w-[500px] h-[500px] bg-gradient-to-br from-blue-600/20 via-indigo-600/10 to-transparent rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-[550px] h-[550px] bg-gradient-to-tr from-purple-600/20 via-pink-500/15 to-amber-500/10 rounded-full blur-3xl"></div>
         </div>
 
-        <div className="max-w-5xl mx-auto text-center space-y-8">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-blue-50/80 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/80 text-blue-700 dark:text-blue-300 text-xs sm:text-sm font-semibold shadow-sm backdrop-blur-md"
-          >
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-            <span>Available for Full Stack & Engineering Opportunities</span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-gray-900 dark:text-white"
-          >
-            Hi, I'm{' '}
-            <span className="gradient-text">
-              {settings?.heroTitle || 'Sri Saru Kumar S'}
-            </span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-            className="text-xl sm:text-2xl font-semibold text-gray-700 dark:text-gray-200 max-w-3xl mx-auto"
-          >
-            {settings?.heroSubtitle || 'Full Stack Developer & AI/ML Enthusiast'}
-          </motion.p>
-
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.3 }}
-            className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed"
-          >
-            Building end-to-end web applications with Node.js, Next.js, React, and TypeScript. Backed by solid database fundamentals in SQL Server, MongoDB, and PostgreSQL with Python data pipeline integration.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.4 }}
-            className="flex flex-wrap items-center justify-center gap-4 pt-4"
-          >
-            <a
-              href="#projects"
-              className="min-h-[44px] px-7 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm sm:text-base shadow-lg shadow-blue-500/25 flex items-center gap-2 transition transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left Text Column */}
+          <div className="lg:col-span-7 space-y-6 text-left">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-blue-50/80 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/80 text-blue-700 dark:text-blue-300 text-xs sm:text-sm font-semibold shadow-sm backdrop-blur-md"
             >
-              <span>View Projects</span>
-              <ArrowRight className="w-4 h-4" />
-            </a>
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+              <span>Available for Engineering & Software Opportunities</span>
+            </motion.div>
 
-            {settings?.resumeUrl && (
-              <a
-                href={settings.resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="min-h-[44px] px-7 py-3.5 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700/80 text-gray-900 dark:text-gray-100 font-bold text-sm sm:text-base flex items-center gap-2 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <FileText className="w-4 h-4 text-blue-500" />
-                <span>Download Resume</span>
-              </a>
-            )}
-
-            <a
-              href="#contact"
-              className="min-h-[44px] px-7 py-3.5 rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-200 font-bold text-sm sm:text-base flex items-center gap-2 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
+            <motion.h1
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
+              className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-gray-900 dark:text-white"
             >
-              <Mail className="w-4 h-4" />
-              <span>Contact Me</span>
-            </a>
-          </motion.div>
+              Hi, I'm{' '}
+              <span className="gradient-text">
+                {settings?.heroTitle || 'Sri Saru Kumar S'}
+              </span>
+            </motion.h1>
 
+            <motion.p
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
+              className="text-xl sm:text-2xl font-semibold text-gray-700 dark:text-gray-200"
+            >
+              {settings?.heroSubtitle || 'Software Engineer & Technology Specialist'}
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
+              className="text-base sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl"
+            >
+              Building modern software solutions, web applications, and intelligent algorithms. Experienced across web technologies, data pipelines, database architecture, and agile problem solving.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="flex flex-wrap items-center gap-4 pt-2"
+            >
+              <a
+                href="#projects"
+                className="min-h-[44px] px-7 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm sm:text-base shadow-lg shadow-blue-500/25 flex items-center gap-2 transition transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <span>View Projects</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+
+              {settings?.resumeUrl && (
+                <a
+                  href={settings.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="min-h-[44px] px-7 py-3.5 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700/80 text-gray-900 dark:text-gray-100 font-bold text-sm sm:text-base flex items-center gap-2 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <FileText className="w-4 h-4 text-blue-500" />
+                  <span>Download Resume</span>
+                </a>
+              )}
+
+              <a
+                href="#contact"
+                className="min-h-[44px] px-7 py-3.5 rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-200 font-bold text-sm sm:text-base flex items-center gap-2 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <Mail className="w-4 h-4" />
+                <span>Contact Me</span>
+              </a>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="flex items-center gap-4 pt-4 text-gray-500 dark:text-gray-400"
+            >
+              {settings?.githubUrl && (
+                <a
+                  href={settings.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub Profile"
+                  className="min-w-[44px] min-h-[44px] p-3 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:text-blue-500 hover:border-blue-500 transition shadow-sm flex items-center justify-center"
+                >
+                  <Github className="w-5 h-5" />
+                </a>
+              )}
+              {settings?.linkedinUrl && (
+                <a
+                  href={settings.linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn Profile"
+                  className="min-w-[44px] min-h-[44px] p-3 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:text-blue-500 hover:border-blue-500 transition shadow-sm flex items-center justify-center"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
+              )}
+              {settings?.email && (
+                <a
+                  href={`mailto:${settings.email}`}
+                  aria-label="Email Sri Saru Kumar"
+                  className="min-w-[44px] min-h-[44px] p-3 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:text-blue-500 hover:border-blue-500 transition shadow-sm flex items-center justify-center"
+                >
+                  <Mail className="w-5 h-5" />
+                </a>
+              )}
+            </motion.div>
+          </div>
+
+          {/* Right Visualizer Column (Color Grading & Animated Interactive Graphic) */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.5 }}
-            className="flex items-center justify-center gap-4 pt-6 text-gray-500 dark:text-gray-400"
+            initial={{ opacity: 0, scale: 0.85, rotate: 2 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+            className="lg:col-span-5 relative flex justify-center items-center"
           >
-            {settings?.githubUrl && (
-              <a
-                href={settings.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub Profile"
-                className="min-w-[44px] min-h-[44px] p-3 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:text-blue-500 hover:border-blue-500 transition shadow-sm flex items-center justify-center"
-              >
-                <Github className="w-5 h-5" />
-              </a>
-            )}
-            {settings?.linkedinUrl && (
-              <a
-                href={settings.linkedinUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn Profile"
-                className="min-w-[44px] min-h-[44px] p-3 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:text-blue-500 hover:border-blue-500 transition shadow-sm flex items-center justify-center"
-              >
-                <Linkedin className="w-5 h-5" />
-              </a>
-            )}
-            {settings?.email && (
-              <a
-                href={`mailto:${settings.email}`}
-                aria-label="Email Sri Saru Kumar"
-                className="min-w-[44px] min-h-[44px] p-3 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:text-blue-500 hover:border-blue-500 transition shadow-sm flex items-center justify-center"
-              >
-                <Mail className="w-5 h-5" />
-              </a>
-            )}
+            <div className="relative w-full max-w-md aspect-square rounded-3xl p-1 bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-600 shadow-2xl shadow-indigo-500/20">
+              <div className="w-full h-full rounded-[22px] bg-gray-950/90 backdrop-blur-xl p-6 flex flex-col justify-between overflow-hidden relative border border-white/10">
+                {/* Floating Ambient Color Spheres */}
+                <motion.div
+                  animate={{
+                    x: [0, 30, -20, 0],
+                    y: [0, -30, 20, 0],
+                    scale: [1, 1.2, 0.9, 1],
+                  }}
+                  transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+                  className="absolute top-4 right-4 w-44 h-44 rounded-full bg-gradient-to-br from-cyan-400 via-blue-600 to-purple-600 blur-2xl opacity-40 pointer-events-none"
+                ></motion.div>
+
+                <motion.div
+                  animate={{
+                    x: [0, -25, 25, 0],
+                    y: [0, 25, -25, 0],
+                    scale: [1, 0.9, 1.15, 1],
+                  }}
+                  transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+                  className="absolute bottom-4 left-4 w-48 h-48 rounded-full bg-gradient-to-tr from-fuchsia-500 via-pink-600 to-amber-400 blur-2xl opacity-40 pointer-events-none"
+                ></motion.div>
+
+                {/* Top Code Header Widget */}
+                <div className="flex items-center justify-between z-10 border-b border-white/10 pb-4">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-rose-500"></span>
+                    <span className="w-3 h-3 rounded-full bg-amber-500"></span>
+                    <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
+                  </div>
+                  <span className="text-[11px] font-mono text-blue-400 font-semibold flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    <span>SriSaruKumar.dev</span>
+                  </span>
+                </div>
+
+                {/* Central Interactive Stack Visualizer */}
+                <div className="z-10 my-auto space-y-4">
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-lg space-y-2 transform hover:-translate-y-1 transition duration-300">
+                    <div className="flex items-center justify-between text-xs font-bold text-gray-200">
+                      <span className="flex items-center gap-2">
+                        <Code2 className="w-4 h-4 text-blue-400" /> Software Engineering & Systems
+                      </span>
+                      <span className="text-emerald-400 font-mono">100% Active</span>
+                    </div>
+                    <div className="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: '100%' }}
+                        transition={{ duration: 1.2, delay: 0.6 }}
+                        className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-400 rounded-full"
+                      ></motion.div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="p-3.5 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md text-left">
+                      <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider block">Development</span>
+                      <span className="text-sm font-extrabold text-blue-400 font-mono">JS / Python / C++</span>
+                    </div>
+                    <div className="p-3.5 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md text-left">
+                      <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider block">Database & Data</span>
+                      <span className="text-sm font-extrabold text-emerald-400 font-mono">SQL / NoSQL</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom Live Metrics Pill */}
+                <div className="z-10 flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 text-xs text-gray-300">
+                  <span className="flex items-center gap-2">
+                    <Layers className="w-4 h-4 text-purple-400" /> Clean Architecture & Systems
+                  </span>
+                  <span className="px-2 py-0.5 rounded-md bg-blue-500/20 text-blue-300 font-mono text-[10px] font-bold">
+                    Production Ready
+                  </span>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
 
       {/* ABOUT SECTION */}
-      <section id="about" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="glass-card rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+      <motion.section
+        id="about"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        <div className="glass-card rounded-3xl p-8 sm:p-10 relative overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-            <div className="lg:col-span-1 flex flex-col items-center text-center">
-              <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-full p-1.5 bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-600 shadow-2xl">
+            <div className="lg:col-span-1 flex flex-col items-center lg:items-start text-center lg:text-left">
+              <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full p-1.5 bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-600 shadow-xl">
                 <img
                   src={settings?.profileImageUrl || 'https://api.dicebear.com/7.x/avataaars/svg?seed=SriSaruKumar'}
                   alt="Sri Saru Kumar S"
@@ -278,11 +379,11 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="lg:col-span-2 space-y-5 text-gray-600 dark:text-gray-300 leading-relaxed">
+            <div className="lg:col-span-2 space-y-4 text-gray-600 dark:text-gray-300 leading-relaxed">
               <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">About Me</h2>
               <p className="text-base">
                 {settings?.bio ||
-                  'Full Stack Developer with hands-on experience building end-to-end web applications using Node.js, Next.js, React, and TypeScript. Comfortable owning features from database schema design to responsive frontend interfaces.'}
+                  'Versatile Software Engineer with hands-on experience in software development, web applications, system design, and database management. Skilled in end-to-end feature delivery using modern technologies, backed by strong problem-solving fundamentals and agile team collaboration.'}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-gray-200 dark:border-gray-800 text-sm">
                 <div>
@@ -307,23 +408,34 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* SKILLS SECTION */}
-      <section id="skills" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="text-center space-y-3">
+      <motion.section
+        id="skills"
+        initial={{ opacity: 0, scale: 0.92 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6"
+      >
+        <div className="space-y-2 text-left">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">Technical Skills</h2>
-          <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-sm sm:text-base">
+          <p className="text-gray-500 dark:text-gray-400 max-w-2xl text-sm sm:text-base">
             Languages, frameworks, databases, and development tools I leverage for scalable solutions.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Object.entries(skillsByCategory).map(([category, items]) => {
+          {Object.entries(skillsByCategory).map(([category, items], catIdx) => {
             const CategoryIcon = getCategoryIcon(category);
             return (
-              <div
+              <motion.div
                 key={category}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: catIdx * 0.08 }}
                 className="glass-card glass-card-hover p-6 rounded-2xl space-y-4"
               >
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2.5 border-b border-gray-200 dark:border-gray-800 pb-3">
@@ -336,24 +448,31 @@ const Home = () => {
                   {items.map((skill) => (
                     <span
                       key={skill._id || skill.name}
-                      className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 border border-gray-200/80 dark:border-gray-700/80"
+                      className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 border border-gray-200/80 dark:border-gray-700/80 hover:border-blue-500 transition"
                     >
                       {skill.name}
                     </span>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
-      </section>
+      </motion.section>
 
       {/* PROJECTS SECTION */}
-      <section id="projects" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
+      <motion.section
+        id="projects"
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6"
+      >
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
+          <div className="text-left">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">Featured Projects</h2>
-            <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm sm:text-base">
+            <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm sm:text-base max-w-xl">
               Key applications designed and developed end-to-end.
             </p>
           </div>
@@ -367,9 +486,13 @@ const Home = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project) => (
-            <div
+          {projects.map((project, projIdx) => (
+            <motion.div
               key={project._id || project.slug}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: projIdx * 0.1 }}
               className="glass-card rounded-2xl overflow-hidden flex flex-col group hover:shadow-2xl hover:border-blue-500/50 transition duration-300"
             >
               <div className="h-48 overflow-hidden relative bg-gray-800">
@@ -431,61 +554,276 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      {/* EXPERIENCE SECTION */}
-      <section id="experience" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="text-center space-y-3">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">Experience & Internships</h2>
-          <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-sm sm:text-base">
-            Professional development history across engineering team roles.
+      {/* EXPERIENCE SECTION (HORIZONTAL TIMELINE & HOTSPOTS) */}
+      <motion.section
+        id="experience"
+        initial={{ opacity: 0, filter: 'blur(10px)' }}
+        whileInView={{ opacity: 1, filter: 'blur(0px)' }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8"
+      >
+        <div className="space-y-2 text-left">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white flex items-center gap-3">
+            <span>Experience & Internships</span>
+            <span className="text-xs font-bold px-3 py-1 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20">
+              Horizontal Timeline
+            </span>
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400 max-w-2xl text-sm sm:text-base">
+            Click on any minimal hotspot card along the horizontal timeline to expand detailed responsibilities.
           </p>
         </div>
 
-        <div className="space-y-6 max-w-4xl mx-auto">
-          {experience.map((exp) => (
-            <div key={exp._id || exp.company} className="glass-card glass-card-hover p-6 sm:p-8 rounded-3xl space-y-4">
+        {/* Horizontal Scrollable Timeline */}
+        <div className="relative py-8">
+          {/* Horizontal Connecting Line */}
+          <div className="absolute top-12 left-0 right-0 h-1 bg-gradient-to-r from-blue-500/20 via-indigo-500/40 to-blue-500/20 -z-0 rounded-full"></div>
+
+          <div className="flex gap-6 overflow-x-auto pb-6 pt-4 px-2 scrollbar-thin scrollbar-thumb-blue-500/20">
+            {experience.map((exp, expIdx) => {
+              const expId = exp._id || exp.company;
+              const isSelected = activeExperienceId === expId;
+
+              return (
+                <div key={expId} className="flex-none w-80 sm:w-96 flex flex-col items-center group">
+                  {/* Pulsing Hotspot Icon Above Card */}
+                  <button
+                    onClick={() => setActiveExperienceId(isSelected ? null : expId)}
+                    className="relative flex items-center justify-center mb-6 cursor-pointer focus:outline-none"
+                    aria-label={`Toggle details for ${exp.role} at ${exp.company}`}
+                  >
+                    <span className="relative flex h-8 w-8">
+                      <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${isSelected ? 'bg-indigo-400' : 'bg-blue-400'} opacity-75`}></span>
+                      <span className={`relative inline-flex rounded-full h-8 w-8 ${isSelected ? 'bg-indigo-600 scale-110' : 'bg-blue-600'} border-4 border-white dark:border-gray-900 shadow-xl items-center justify-center text-white text-xs font-bold transition transform group-hover:scale-110`}>
+                        {expIdx + 1}
+                      </span>
+                    </span>
+                  </button>
+
+                  {/* Minimal Card Component */}
+                  <div
+                    onClick={() => setActiveExperienceId(isSelected ? null : expId)}
+                    className={`w-full glass-card p-6 rounded-3xl cursor-pointer space-y-3 border transition-all duration-300 ${
+                      isSelected
+                        ? 'border-blue-500 ring-2 ring-blue-500/30 shadow-2xl scale-[1.02] bg-blue-500/5'
+                        : 'border-gray-200/80 dark:border-gray-800/80 hover:border-blue-500/50 hover:shadow-xl'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-300 border border-blue-200/50 dark:border-blue-800/50">
+                        {exp.startDate} – {exp.endDate || 'Present'}
+                      </span>
+                      <span className="text-xs font-bold text-blue-500 hover:underline">
+                        {isSelected ? 'Less ▲' : 'Details ▼'}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white line-clamp-1">{exp.role}</h3>
+                      <p className="text-sm font-semibold text-blue-500 mt-0.5">{exp.company}</p>
+                    </div>
+
+                    {/* Minimal summary preview */}
+                    <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed">
+                      {Array.isArray(exp.description) ? exp.description[0] : exp.description}
+                    </p>
+
+                    {/* Expanded Detailed View inside minimal card */}
+                    {isSelected && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="pt-4 border-t border-gray-200 dark:border-gray-800 space-y-3"
+                      >
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500">Key Contributions</h4>
+                        <ul className="space-y-2 text-xs text-gray-600 dark:text-gray-300 list-disc list-inside leading-relaxed">
+                          {Array.isArray(exp.description)
+                            ? exp.description.map((bullet, idx) => <li key={idx}>{bullet}</li>)
+                            : <li>{exp.description}</li>}
+                        </ul>
+
+                        {exp.technologies?.length > 0 && (
+                          <div className="pt-2">
+                            <span className="text-[10px] font-bold uppercase text-gray-400 block mb-1.5">Tech Stack</span>
+                            <div className="flex flex-wrap gap-1.5">
+                              {exp.technologies.map((tech) => (
+                                <span
+                                  key={tech}
+                                  className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
+                                >
+                                  {tech}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </motion.div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </motion.section>
+
+      {/* EDUCATION SECTION */}
+      <motion.section
+        id="education"
+        initial={{ opacity: 0, rotateX: -15 }}
+        whileInView={{ opacity: 1, rotateX: 0 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6"
+      >
+        <div className="space-y-2 text-left">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">Education</h2>
+          <p className="text-gray-500 dark:text-gray-400 max-w-2xl text-sm sm:text-base">
+            Academic qualifications and engineering background.
+          </p>
+        </div>
+
+        <div className="space-y-6">
+          {education.map((edu) => (
+            <div key={edu._id || edu.institution} className="glass-card glass-card-hover p-6 sm:p-8 rounded-3xl space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-200 dark:border-gray-800 pb-4">
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">{exp.role}</h3>
-                  <p className="text-base font-semibold text-blue-500">{exp.company}</p>
+                <div className="flex items-start gap-4">
+                  <div className="p-3 rounded-2xl bg-blue-500/10 text-blue-500 flex-shrink-0">
+                    <GraduationCap className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">{edu.degree}</h3>
+                    <p className="text-base font-semibold text-blue-500">{edu.institution}</p>
+                    {edu.fieldOfStudy && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{edu.fieldOfStudy}</p>
+                    )}
+                  </div>
                 </div>
                 <div className="text-xs font-bold px-3.5 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 w-fit">
-                  {exp.startDate} – {exp.endDate || 'Present'}
+                  {edu.startDate} – {edu.endDate || 'Present'}
                 </div>
               </div>
-
-              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300 list-disc list-inside leading-relaxed">
-                {Array.isArray(exp.description)
-                  ? exp.description.map((bullet, idx) => <li key={idx}>{bullet}</li>)
-                  : <li>{exp.description}</li>}
-              </ul>
-
-              {exp.technologies?.length > 0 && (
-                <div className="flex flex-wrap gap-2 pt-2">
-                  {exp.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
-                    >
-                      {tech}
-                    </span>
-                  ))}
+              {edu.grade && (
+                <div className="inline-block px-3 py-1 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-300 text-xs font-bold">
+                  Grade / CGPA: {edu.grade}
                 </div>
+              )}
+              {edu.description && (
+                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                  {edu.description}
+                </p>
               )}
             </div>
           ))}
         </div>
-      </section>
+      </motion.section>
+
+      {/* CERTIFICATIONS SECTION */}
+      <motion.section
+        id="certifications"
+        initial={{ opacity: 0, x: 50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6"
+      >
+        <div className="space-y-2 text-left">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">Certifications</h2>
+          <p className="text-gray-500 dark:text-gray-400 max-w-2xl text-sm sm:text-base">
+            Professional certifications and verified technical credentials.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {certifications.map((cert) => (
+            <div key={cert._id || cert.title} className="glass-card glass-card-hover p-6 rounded-3xl space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="p-3 rounded-2xl bg-indigo-500/10 text-indigo-500">
+                    <Award className="w-6 h-6" />
+                  </div>
+                  {cert.credentialUrl && (
+                    <a
+                      href={cert.credentialUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-bold text-blue-500 hover:underline flex items-center gap-1 min-h-[36px] px-2"
+                    >
+                      <span>Verify</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">{cert.title}</h3>
+                  <p className="text-sm font-semibold text-indigo-500">{cert.issuer}</p>
+                </div>
+                {cert.issueDate && (
+                  <p className="text-xs text-gray-400">Issued: {cert.issueDate}</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* ACHIEVEMENTS SECTION */}
+      <motion.section
+        id="achievements"
+        initial={{ opacity: 0, scale: 0.85 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6"
+      >
+        <div className="space-y-2 text-left">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">Achievements & Honors</h2>
+          <p className="text-gray-500 dark:text-gray-400 max-w-2xl text-sm sm:text-base">
+            Competitions, hackathons, and technical accomplishments.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {achievements.map((ach) => (
+            <div key={ach._id || ach.title} className="glass-card glass-card-hover p-6 rounded-3xl space-y-3">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-2xl bg-amber-500/10 text-amber-500 flex-shrink-0">
+                  <Trophy className="w-6 h-6" />
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">{ach.title}</h3>
+                  {ach.date && <p className="text-xs text-amber-500 font-semibold">{ach.date}</p>}
+                  {ach.description && (
+                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed pt-1">
+                      {ach.description}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.section>
 
       {/* CODING PROFILES SECTION */}
-      <section id="coding-profiles" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="text-center space-y-3">
+      <motion.section
+        id="coding-profiles"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6"
+      >
+        <div className="space-y-2 text-left">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">Coding Profiles & Statistics</h2>
-          <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-sm sm:text-base">
+          <p className="text-gray-500 dark:text-gray-400 max-w-2xl text-sm sm:text-base">
             Synchronized activity metrics from GitHub and LeetCode.
           </p>
         </div>
@@ -609,107 +947,189 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* CONTACT SECTION */}
-      <section id="contact" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="text-center space-y-3">
+      <motion.section
+        id="contact"
+        initial={{ opacity: 0, scale: 0.95, y: 30 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6"
+      >
+        <div className="space-y-2 text-left">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">Get In Touch</h2>
-          <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-sm sm:text-base">
+          <p className="text-gray-500 dark:text-gray-400 max-w-2xl text-sm sm:text-base">
             Interested in collaboration or open positions? Send a direct message below.
           </p>
         </div>
 
-        <div className="glass-card max-w-3xl mx-auto p-8 sm:p-10 rounded-3xl shadow-xl">
-          {formSuccess && (
-            <div className="mb-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center gap-3 font-semibold text-sm">
-              <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
-              <span>{formSuccess}</span>
-            </div>
-          )}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Contact Info Sidebar */}
+          <div className="glass-card p-8 rounded-3xl space-y-6 flex flex-col justify-between">
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-800 pb-4">
+                Direct Contact
+              </h3>
 
-          {formError && (
-            <div className="mb-6 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 font-semibold text-sm">
-              {formError}
-            </div>
-          )}
+              <div className="space-y-4">
+                <div className="flex items-center gap-4 p-4 rounded-2xl bg-gray-100 dark:bg-gray-800/60">
+                  <div className="p-3 rounded-xl bg-blue-600 text-white">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="block text-xs font-bold uppercase text-gray-400">Email</span>
+                    <a href={`mailto:${settings?.email}`} className="text-sm font-semibold text-gray-900 dark:text-white hover:text-blue-500">
+                      {settings?.email || 'srisarukumar@gmail.com'}
+                    </a>
+                  </div>
+                </div>
 
-          <form onSubmit={handleContactSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="flex items-center gap-4 p-4 rounded-2xl bg-gray-100 dark:bg-gray-800/60">
+                  <div className="p-3 rounded-xl bg-indigo-600 text-white">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="block text-xs font-bold uppercase text-gray-400">Phone</span>
+                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                      {settings?.phone || '+91 7871217677'}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4 p-4 rounded-2xl bg-gray-100 dark:bg-gray-800/60">
+                  <div className="p-3 rounded-xl bg-purple-600 text-white">
+                    <MapPin className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="block text-xs font-bold uppercase text-gray-400">Location</span>
+                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                      {settings?.location || 'Rajapalayam, Tamil Nadu, India'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-6 border-t border-gray-200 dark:border-gray-800 flex items-center justify-center gap-4">
+              {settings?.githubUrl && (
+                <a
+                  href={settings.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub Profile"
+                  className="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-blue-500 transition"
+                >
+                  <Github className="w-5 h-5" />
+                </a>
+              )}
+              {settings?.linkedinUrl && (
+                <a
+                  href={settings.linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn Profile"
+                  className="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-blue-500 transition"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
+              )}
+            </div>
+          </div>
+
+          {/* Form */}
+          <div className="lg:col-span-2 glass-card p-8 sm:p-10 rounded-3xl shadow-xl">
+            {formSuccess && (
+              <div className="mb-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center gap-3 font-semibold text-sm">
+                <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
+                <span>{formSuccess}</span>
+              </div>
+            )}
+
+            {formError && (
+              <div className="mb-6 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 font-semibold text-sm">
+                {formError}
+              </div>
+            )}
+
+            <form onSubmit={handleContactSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={contactForm.name}
+                    onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                    placeholder="John Doe"
+                    className="w-full px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">
+                    Your Email
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={contactForm.email}
+                    onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                    placeholder="john@example.com"
+                    className="w-full px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"
+                  />
+                </div>
+              </div>
+
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">
-                  Your Name
+                  Subject
                 </label>
                 <input
                   type="text"
                   required
-                  value={contactForm.name}
-                  onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                  placeholder="John Doe"
+                  value={contactForm.subject}
+                  onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
+                  placeholder="Project Inquiry / Job Opportunity"
                   className="w-full px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">
-                  Your Email
+                  Message
                 </label>
-                <input
-                  type="email"
+                <textarea
+                  rows={5}
                   required
-                  value={contactForm.email}
-                  onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                  placeholder="john@example.com"
+                  value={contactForm.message}
+                  onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                  placeholder="Write your message here..."
                   className="w-full px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"
                 />
               </div>
-            </div>
 
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">
-                Subject
-              </label>
-              <input
-                type="text"
-                required
-                value={contactForm.subject}
-                onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
-                placeholder="Project Inquiry / Job Opportunity"
-                className="w-full px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">
-                Message
-              </label>
-              <textarea
-                rows={5}
-                required
-                value={contactForm.message}
-                onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                placeholder="Write your message here..."
-                className="w-full px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={formSubmitting}
-              className="w-full min-h-[48px] py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-base shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 transition disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              {formSubmitting ? (
-                <span>Sending Message...</span>
-              ) : (
-                <>
-                  <Send className="w-4 h-4" />
-                  <span>Send Message</span>
-                </>
-              )}
-            </button>
-          </form>
+              <button
+                type="submit"
+                disabled={formSubmitting}
+                className="w-full min-h-[48px] py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-base shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 transition disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {formSubmitting ? (
+                  <span>Sending Message...</span>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    <span>Send Message</span>
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };

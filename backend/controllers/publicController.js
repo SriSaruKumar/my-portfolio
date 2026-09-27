@@ -139,6 +139,15 @@ const postContact = async (req, res) => {
       message: req.body.message,
     });
 
+    // Send async email notification via Nodemailer (non-blocking)
+    const { sendContactNotification } = require('../services/emailService');
+    sendContactNotification({
+      name: req.body.name,
+      email: req.body.email,
+      subject: req.body.subject,
+      message: req.body.message,
+    }).catch((err) => console.error('[Contact Controller] Email trigger error:', err));
+
     res.status(201).json({
       success: true,
       message: 'Thank you! Your message has been sent successfully.',

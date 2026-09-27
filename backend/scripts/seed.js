@@ -46,8 +46,8 @@ const seedData = async () => {
     // 2. Create Site Settings
     await SiteSettings.create({
       name: 'Sri Saru Kumar S',
-      headline: 'Full Stack Developer',
-      bio: 'Full Stack Developer with hands-on experience building end-to-end web applications using Node.js, Next.js, React, and TypeScript, backed by strong database fundamentals across SQL Server, MongoDB, and PostgreSQL. Comfortable owning a feature from database schema through backend APIs to a polished frontend, with a working knowledge of query optimization and agile team practices. Additional background in Python and data pipelines adds versatility for backend, data-adjacent, and integration work.',
+      headline: 'Software Engineer & Tech Specialist',
+      bio: 'Versatile Software Engineer with hands-on experience in software development, web applications, system design, and database management. Skilled in end-to-end feature delivery using modern technologies including JavaScript/TypeScript, Python, and SQL/NoSQL databases, backed by strong problem-solving fundamentals and agile team collaboration.',
       email: 'srisarukumar@gmail.com',
       phone: '+91 7871217677',
       location: 'Rajapalayam, Tamil Nadu, India',
@@ -57,7 +57,7 @@ const seedData = async () => {
       resumeUrl: 'https://github.com/srisarukumar',
       profileImageUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=SriSaruKumar',
       heroTitle: 'Sri Saru Kumar',
-      heroSubtitle: 'Full Stack Developer & AI/ML Enthusiast',
+      heroSubtitle: 'Software Engineer & Technology Professional',
     });
     console.log('[Seed] Site settings created.');
 

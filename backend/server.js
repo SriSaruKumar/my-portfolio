@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+const path = require('path');
+const fs = require('fs');
 const connectDB = require('./config/db');
 const { initCronJobs } = require('./jobs/cronJobs');
 
@@ -59,10 +61,22 @@ app.get('/health', (req, res) => {
   res.status(200).json({ success: true, status: 'OK', message: 'Backend API Server Operational' });
 });
 
-// Root Route
-app.get('/', (req, res) => {
-  res.status(200).json({ success: true, message: 'Sri Saru Kumar Portfolio API Server' });
-});
+// Serve static frontend build if dist folder exists
+const frontendDistPath = path.join(__dirname, '../frontend/dist');
+if (fs.existsSync(frontendDistPath)) {
+  app.use(express.static(frontendDistPath));
+  app.get('*', (req, res, next) => {
+    if (req.originalUrl.startsWith('/api') || req.originalUrl.startsWith('/health')) {
+      return next();
+    }
+    res.sendFile(path.join(frontendDistPath, 'index.html'));
+  });
+} else {
+  // Root Route fallback when dist folder is not present
+  app.get('/', (req, res) => {
+    res.status(200).json({ success: true, message: 'Sri Saru Kumar Portfolio API Server' });
+  });
+}
 
 // 404 Handler
 app.use((req, res, next) => {

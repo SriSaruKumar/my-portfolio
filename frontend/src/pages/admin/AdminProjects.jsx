@@ -10,6 +10,7 @@ const AdminProjects = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [hasGithubLink, setHasGithubLink] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -44,6 +45,7 @@ const AdminProjects = () => {
   const handleOpenModal = (project = null) => {
     if (project) {
       setEditingId(project._id);
+      setHasGithubLink(Boolean(project.githubUrl && project.githubUrl.trim()));
       setFormData({
         title: project.title || '',
         slug: project.slug || '',
@@ -59,6 +61,7 @@ const AdminProjects = () => {
       });
     } else {
       setEditingId(null);
+      setHasGithubLink(false);
       setFormData({
         title: '',
         slug: '',
@@ -246,30 +249,63 @@ const AdminProjects = () => {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold uppercase text-gray-700 dark:text-gray-300 mb-1">
-                  GitHub URL
+            <div className="space-y-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/40 border border-gray-200 dark:border-gray-700">
+              <label className="block text-xs font-bold uppercase text-gray-700 dark:text-gray-300">
+                Do you have a public GitHub repository link for this project?
+              </label>
+              <div className="flex items-center gap-6 text-sm font-semibold">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="hasGithub"
+                    checked={hasGithubLink}
+                    onChange={() => setHasGithubLink(true)}
+                    className="w-4 h-4 text-blue-600"
+                  />
+                  <span>Yes, include GitHub link</span>
                 </label>
-                <input
-                  type="url"
-                  value={formData.githubUrl}
-                  onChange={(e) => setFormData({ ...formData, githubUrl: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
-                />
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="hasGithub"
+                    checked={!hasGithubLink}
+                    onChange={() => {
+                      setHasGithubLink(false);
+                      setFormData({ ...formData, githubUrl: '' });
+                    }}
+                    className="w-4 h-4 text-blue-600"
+                  />
+                  <span>No GitHub link</span>
+                </label>
               </div>
 
-              <div>
-                <label className="block text-xs font-bold uppercase text-gray-700 dark:text-gray-300 mb-1">
-                  Live Demo URL
-                </label>
-                <input
-                  type="url"
-                  value={formData.liveUrl}
-                  onChange={(e) => setFormData({ ...formData, liveUrl: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
-                />
-              </div>
+              {hasGithubLink && (
+                <div className="pt-2">
+                  <label className="block text-xs font-bold uppercase text-gray-700 dark:text-gray-300 mb-1">
+                    GitHub URL
+                  </label>
+                  <input
+                    type="url"
+                    value={formData.githubUrl}
+                    onChange={(e) => setFormData({ ...formData, githubUrl: e.target.value })}
+                    placeholder="https://github.com/username/project"
+                    className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700"
+                  />
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold uppercase text-gray-700 dark:text-gray-300 mb-1">
+                Live Demo URL (Optional)
+              </label>
+              <input
+                type="url"
+                value={formData.liveUrl}
+                onChange={(e) => setFormData({ ...formData, liveUrl: e.target.value })}
+                placeholder="https://myproject.com"
+                className="w-full px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+              />
             </div>
 
             <div className="flex items-center gap-4 pt-2">

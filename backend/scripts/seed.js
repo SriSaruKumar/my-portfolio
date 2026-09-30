@@ -156,6 +156,36 @@ const seedData = async () => {
     // 5. Create Projects
     const projectsData = [
       {
+        title: 'Patient Management System',
+        slug: 'patient-management-system',
+        shortDescription: 'Full-stack healthcare management application built using React.js, Redux Toolkit, NestJS, PostgreSQL, TypeORM, and Razorpay integration.',
+        description: 'Developed a full-stack Patient Management System using React.js, Redux Toolkit, NestJS, PostgreSQL, and Razorpay. Features secure JWT authentication, patient CRUD operations, search & filtering, dashboard statistics, billing management, and Razorpay payment gateway integration with transaction history verification. Deployed using modular REST API architecture with strict input validation.',
+        technologies: ['React.js', 'Redux Toolkit', 'NestJS', 'PostgreSQL', 'TypeORM', 'Razorpay', 'TypeScript', 'REST APIs'],
+        githubUrl: '',
+        liveUrl: '',
+        imageUrl: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop',
+        featured: true,
+        startDate: 'Jan 2024',
+        endDate: 'May 2024',
+        status: 'Completed',
+        order: 1,
+      },
+      {
+        title: 'ACrafts - Organic Products E-Commerce Portal',
+        slug: 'acrafts-organic-ecommerce-portal',
+        shortDescription: 'Cross-platform organic products e-commerce portal built with Flutter and SQL Database (PostgreSQL/MySQL/SQLite).',
+        description: 'ACrafts is a full-featured cross-platform e-commerce application built with Flutter (Dart) and backed by relational SQL database architecture (MySQL / PostgreSQL / SQLite). Features multi-role capabilities including Buyer features (product catalog, search filters, organic certifications, wishlist, order tracking, Razorpay/Stripe checkout), Seller / Vendor features (vendor onboarding, product CRUD management, inventory tracking, earnings analytics), and Admin features (user/seller verification, category commission management, transaction logs).',
+        technologies: ['Flutter', 'Dart', 'PostgreSQL', 'MySQL', 'SQLite', 'Razorpay', 'Stripe', 'REST APIs'],
+        githubUrl: '',
+        liveUrl: '',
+        imageUrl: 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=800&auto=format&fit=crop',
+        featured: true,
+        startDate: 'Jun 2024',
+        endDate: 'Sep 2024',
+        status: 'Completed',
+        order: 2,
+      },
+      {
         title: 'Adaptive Retail Demand Forecasting',
         slug: 'adaptive-retail-demand-forecasting',
         shortDescription: 'AI-driven forecasting system with Python model, Node.js API server, and React dashboard.',
@@ -168,7 +198,7 @@ const seedData = async () => {
         startDate: 'Jan 2024',
         endDate: 'Apr 2024',
         status: 'Completed',
-        order: 1,
+        order: 3,
       },
       {
         title: 'Job Recruitment Portal',
@@ -183,7 +213,7 @@ const seedData = async () => {
         startDate: 'Sep 2023',
         endDate: 'Dec 2023',
         status: 'Completed',
-        order: 2,
+        order: 4,
       },
       {
         title: 'Finance Management App',
@@ -198,7 +228,7 @@ const seedData = async () => {
         startDate: 'May 2023',
         endDate: 'Aug 2023',
         status: 'Completed',
-        order: 3,
+        order: 5,
       },
     ];
     await Project.insertMany(projectsData);
